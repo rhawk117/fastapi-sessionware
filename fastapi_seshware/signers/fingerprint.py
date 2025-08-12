@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 import ipaddress
-from typing import Protocol
 import hashlib
 from fastapi import Request
 
@@ -30,7 +29,7 @@ class FingerprintContext:
     extra: dict[str, str | None] = field(default_factory=dict)
 
 
-class ClientFingerprint:
+class RequestFingerprint:
     def __init__(
         self,
         *,
@@ -61,17 +60,8 @@ class ClientFingerprint:
         return context
 
 
-class FingerprintEncoder(Protocol):
-    def __call__(self, context: FingerprintContext) -> bytes: ...
-
-
-FINGERPRINT_LENGTH = 32
-
-
-def default_fingerprint_encoder(
-    context: FingerprintContext,
-) -> bytes:
-    hashed = hashlib.blake2b(digest_size=FINGERPRINT_LENGTH)
+def default_fingerprint_encoder(context: FingerprintContext) -> bytes:
+    hashed = hashlib.blake2b(digest_size=32)
     hashed.update((context.user_agent or "").encode("utf-8"))
     hashed.update(b"|")
     ip_addr = context.ip_address or "unknown"

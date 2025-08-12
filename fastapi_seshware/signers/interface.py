@@ -1,7 +1,7 @@
 import abc
 from typing import NamedTuple
 
-from fastapi_seshware.fingerprint import FingerprintContext
+from fastapi_seshware.signers.fingerprint import FingerprintContext
 
 
 class SignatureResult(NamedTuple):
@@ -10,18 +10,12 @@ class SignatureResult(NamedTuple):
     key_id: str | None
 
 
-class SessionSigner(abc.ABC):
+class BaseSessionSigner(abc.ABC):
     @abc.abstractmethod
-    def sign_session(
-        self,
-        *,
-        session_id: bytes,
-        context: FingerprintContext
-    ) -> SignatureResult: ...
-
+    def sign(self, *, session_id: bytes, context: FingerprintContext) -> str: ...
 
     @abc.abstractmethod
-    def load_signature(
+    def load(
         self,
         session_id: str,
         *,
