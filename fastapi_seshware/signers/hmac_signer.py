@@ -106,11 +106,15 @@ class HmacSigner(BaseSessionSigner):
             return None
 
         if token_segments.version != self._options.version:
-            raise ValueError("HmacSigner: version mismatch")
+            raise ValueError(
+                "HmacSigner: version mismatch, make sure your using the same version as your clients"
+            )
 
         key_value = self._options.key_ring.get(token_segments.key_id)
         if not key_value:
-            raise ValueError("HmacSigner: key_id not found in key_ring")
+            raise ValueError(
+                "HmacSigner: key_id not found in key_ring, make sure your using the same key as the currently used key"
+            )
 
         payload = b64url_decode(token_segments.payload)
         signature = b64url_decode(token_segments.signature)

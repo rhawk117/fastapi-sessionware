@@ -20,4 +20,5 @@ class BaseSessionSigner(abc.ABC):
         session_id: str,
         *,
         context: FingerprintContext,
+        max_age_seconds: int | None = None,
     ) -> SignatureResult | None: ...

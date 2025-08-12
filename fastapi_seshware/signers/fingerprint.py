@@ -57,6 +57,8 @@ class RequestFingerprint:
             for header in self.extra_headers:
                 context.extra[header] = request.headers.get(header, None)
 
+        request.state.fingerprint_context = context
+
         return context
 
 
