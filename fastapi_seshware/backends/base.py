@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any, Protocol
 
-from fastapi_seshware.signers import BaseSessionSigner
+from fastapi_seshware.signatures import BaseSessionSigner
 import secrets
 from pydantic import BaseModel
 
