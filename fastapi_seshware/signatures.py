@@ -88,7 +88,7 @@ class SerializerSignatures(SignatureAdapter):
 
 class HmacSignatures(SignatureAdapter):
     """
-    HMAC-SHA256 signer that includes a timestamp for optional `max_age` checks.
+    The 'classic' HMAC-based implementation for signing session IDs.
 
     Envelope format:
       base64url( "<sid>.<timestamp>" ) + "." + base64url( HMAC( key, "<sid>.<ts>" ) )
