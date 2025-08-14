@@ -241,19 +241,21 @@ class OAuth2SessionIDBearer(BaseSessionSecurity):
                 f"in the Authorization header as a Bearer token and verifies the signature using {config.signer.__name__}."
             )
 
+        self.scopes: dict[str, str] = scopes or {}
         model = OAuth2(
             flows=OAuthFlows(
                 implicit=cast(
                     Any,
                     {
                         "authorizationUrl": login_url,
-                        "scopes": scopes or {},
+                        "scopes": scopes,
                     },
                 )
             )
         )
         if scheme_name is None:
             scheme_name = "OAuth2SessionBearer"
+
         super().__init__(
             config,
             model=model,
